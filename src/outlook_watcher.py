@@ -13,6 +13,23 @@ import json
 import os
 import win32com.client
 
+# PidTagSenderSmtpAddress - reliably resolves the real SMTP address even
+# for Exchange resource/device accounts (like a networked printer) where
+# SenderEmailAddress instead returns an unusable internal identifier.
+PR_SENDER_SMTP_ADDRESS = "http://schemas.microsoft.com/mapi/proptag/0x5D01001E"
+
+
+def get_real_sender_address(item):
+    """Return the real SMTP address for an email's sender. Falls back to
+    SenderEmailAddress if the property lookup fails for some reason."""
+    try:
+        address = item.PropertyAccessor.GetProperty(PR_SENDER_SMTP_ADDRESS)
+        if address:
+            return address
+    except Exception:
+        pass
+    return item.SenderEmailAddress
+
 
 def load_settings():
     """Read config/settings.json so the printer address / folder names
@@ -72,7 +89,7 @@ def find_and_save_scans(settings):
 
     for item in items:
         try:
-            sender = (item.SenderEmailAddress or "").lower()
+            sender = (get_real_sender_address(item) or "").lower()
         except AttributeError:
             # Skip anything that isn't a normal mail item (meeting invites, etc.)
             continue
