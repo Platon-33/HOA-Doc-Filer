@@ -1,0 +1,13 @@
+{
+  "_comment": "List every HOA/property here. 'name' is the folder name that will be created. 'aliases' are other ways the property might be written/spelled in emails or scanned documents - add as many as you notice over time.",
+  "properties": [
+    {
+      "name": "Sunset Ridge HOA",
+      "aliases": ["Sunset Ridge", "Sunset Ridge Homeowners"]
+    },
+    {
+      "name": "Desert Palms Community",
+      "aliases": ["Desert Palms", "Desert Palms HOA"]
+    }
+  ]
+}

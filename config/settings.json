@@ -1,0 +1,14 @@
+{
+  "_comment": "Settings you're most likely to need to change. Edit values on the right, not the keys on the left.",
+
+  "printer_sender_email": "printer@yourcompany.com",
+
+  "_comment_folder": "Which Outlook folder to watch. 'Inbox' is the default top-level inbox.",
+  "outlook_folder": "Inbox",
+
+  "_comment_processed": "After a scan email is handled, it gets moved into this subfolder of the watched folder. This is how the script avoids re-processing the same email twice - it will be created automatically the first time you run the script if it doesn't exist.",
+  "processed_folder_name": "Processed by Scanner Script",
+
+  "_comment_download": "Where PDFs get saved on your machine before they're renamed/filed. Relative to the project folder.",
+  "download_folder": "downloads"
+}

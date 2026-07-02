@@ -1,0 +1,21 @@
+{
+  "_comment": "Each doc type has a folder name and keywords the script will look for in the PDF text to suggest a match. Keywords are just a starting point - tune them as you see real documents.",
+  "doc_types": [
+    {
+      "name": "Invoices",
+      "keywords": ["invoice", "bill to", "amount due", "payment due"]
+    },
+    {
+      "name": "Meeting Minutes",
+      "keywords": ["minutes", "call to order", "board meeting", "adjourned"]
+    },
+    {
+      "name": "Violations",
+      "keywords": ["violation", "notice of violation", "compliance notice"]
+    },
+    {
+      "name": "Correspondence",
+      "keywords": ["dear homeowner", "dear resident", "to whom it may concern"]
+    }
+  ]
+}
