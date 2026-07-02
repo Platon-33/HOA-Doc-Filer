@@ -1,7 +1,7 @@
 {
   "_comment": "Settings you're most likely to need to change. Edit values on the right, not the keys on the left.",
 
-  "printer_sender_email": "printer@yourcompany.com",
+  "printer_sender_email": "canonprinters@trestlemanagement.com",
 
   "_comment_folder": "Which Outlook folder to watch. 'Inbox' is the default top-level inbox.",
   "outlook_folder": "Inbox",
