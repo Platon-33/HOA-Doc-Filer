@@ -87,10 +87,10 @@
     },
     {
       "name": "Expired Insurance Policies",
-      "keywords": ["expired insurance", "insurance policy", "coverage expired"],
+      "keywords": ["expired insurance", "insurance policy", "coverage expired", "Certificate of Liablility Insurance"],
       "date_format": null,
       "subfolder": true,
-      "manual_filename": true
+      "manual_filename": false
     },
     {
       "name": "Insurance",
@@ -146,7 +146,7 @@
     {
       "name": "Bank Statements",
       "keywords": ["bank statement", "account summary", "transaction history"],
-      "date_format": "month_year",
+      "date_format": "year_month",
       "subfolder": true
     },
     {

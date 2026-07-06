@@ -56,7 +56,7 @@ def _format_date_component(date_format, date_str):
     year, month, day = date_str.split("-")
     year, month, day = int(year), int(month), int(day)
 
-    if date_format == "month_year":
+    if date_format == "year_month":
         return f"{year}.{month:02d}"
     elif date_format == "full_date":
         return f"{month}.{day}.{year}"
