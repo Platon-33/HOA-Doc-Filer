@@ -2,6 +2,9 @@
   "_comment": "Each doc type has a folder name and keywords the script will look for in the PDF text to suggest a match. Keywords are just a starting point - tune them as you see real documents.",
   "doc_types": [
     {
+      "_comment_following_brackets": "The following brackets are understood as Documents that are kept permenantly."
+    },
+    {
       "name": "Invoices",
       "keywords": ["invoice", "bill to", "amount due", "payment due"]
     },
@@ -16,6 +19,54 @@
     {
       "name": "Correspondence",
       "keywords": ["dear homeowner", "dear resident", "to whom it may concern"]
+    },
+    {
+      "name": "Articles of Incorporation",
+      "keywords": ["articles of incorporation", "certificate of incorporation", "incorporation documents"]
+    },
+    {
+      "name": "Bylaws",
+      "keywords": ["bylaws", "rules and regulations", "governing documents"]
+    },
+    {
+      "name": "Plat",
+      "keywords": ["plat", "property map", "land survey"]
+    },
+    {
+      "name": "Press Releases",
+      "keywords": ["press release", "media announcement", "public statement"]
+    },
+    {
+      "name": "Corporation Commission Filings",
+      "keywords": ["corporation commission", "filing", "business registration"]
+    },
+    {
+      "name": "Public Filings",
+      "keywords": ["public filing", "government document", "official record"]
+    },
+    {
+      "name": "Development/Construction Plans",
+      "keywords": ["development plan", "construction plan", "site plan"]
+    },
+    {
+      "name": "Expired Insurance Policies",
+      "keywords": ["expired insurance", "insurance policy", "coverage expired"]
+    },
+    {
+      "name": "Insurance",
+      "keywords": ["insurance", "policy", "coverage"]
+    },
+    {
+      "name": "Audit/Compilation Reports",
+      "keywords": ["audit report", "compilation report", "financial statement"]
+    },
+    {
+      "name": "Design Review Records",
+      "keywords": ["design review", "architectural review", "approval"]
+    },
+    {
+      "name": "Reserve Studies",
+      "keywords": ["reserve study", "capital reserve", "funding plan"]
     }
   ]
 }
