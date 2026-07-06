@@ -1,0 +1,20 @@
+# Python virtual environments
+venv/
+.venv/
+
+# Python cache and bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Test and local tool caches
+.pytest_cache/
+.mypy_cache/
+
+# Project-generated artifacts
+hoa-doc-filer/downloads/
+hoa-doc-filer/logs/
+hoa-doc-filer/src/__pycache__/
+hoa-doc-filer/**/*.pyc
+hoa-doc-filer/**/*.png
+hoa-doc-filer/debug_page.png
