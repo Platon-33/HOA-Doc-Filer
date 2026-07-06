@@ -1,100 +1,166 @@
 {
-  "_comment": "Each doc type has a folder name and keywords the script will look for in the PDF text to suggest a match. Keywords are just a starting point - tune them as you see real documents.",
+  "_comment1": "Each doc type controls how its files get named and filed.",
+  "_comment2": "'keywords' are what the scanner text is checked against to suggest this type.", 
+  "_comment3": "'date_format' controls the date portion of the filename: 'month_year' -> '2022.07', 'full_date' -> '2.25.2013', 'year' -> '2022', or null for no date.",
+  "_comment4": "'subfolder' - false means the file goes directly in the community's root folder.",
+  "_comment5": "'manual_filename' - true means you type the exact title yourself during review",
+  "_comment6": "(for one-off documents with varying titles, like correspondence or legal letters);", 
+  "_comment7": "false/omitted means the filename auto-builds from the doc type name (and date, if any).",
   "doc_types": [
     {
-      "_comment_following_brackets": "The following brackets are understood as Documents that are kept permenantly."
-    },
-    {
       "name": "Invoices",
-      "keywords": ["invoice", "bill to", "amount due", "payment due"]
+      "keywords": ["invoice", "bill to", "amount due", "payment due"],
+      "date_format": "year_month",
+      "subfolder": true
     },
     {
       "name": "Meeting Minutes",
-      "keywords": ["minutes", "call to order", "board meeting", "adjourned"]
+      "keywords": ["minutes", "call to order", "board meeting", "adjourned"],
+      "date_format": "full_date",
+      "subfolder": true
     },
     {
       "name": "Violations",
-      "keywords": ["violation", "notice of violation", "compliance notice"]
+      "keywords": ["violation", "notice of violation", "compliance notice"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Correspondence",
-      "keywords": ["dear homeowner", "dear resident", "to whom it may concern"]
+      "keywords": ["dear homeowner", "dear resident", "to whom it may concern"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Articles of Incorporation",
-      "keywords": ["articles of incorporation", "certificate of incorporation", "incorporation documents"]
+      "keywords": ["articles of incorporation", "certificate of incorporation", "incorporation documents"],
+      "date_format": null,
+      "subfolder": true
     },
     {
       "name": "Bylaws",
-      "keywords": ["bylaws", "rules and regulations", "governing documents"]
+      "keywords": ["bylaws"],
+      "date_format": null,
+      "subfolder": true
+    },
+    {
+      "name": "Rules & Regulations",
+      "keywords":["rules and regulations"],
+      "date_format": null,
+      "subfolder": true
     },
     {
       "name": "Plat",
-      "keywords": ["plat", "property map", "land survey"]
+      "keywords": ["plat", "property map", "land survey"],
+      "date_format": null,
+      "subfolder": true
     },
     {
       "name": "Press Releases",
-      "keywords": ["press release", "media announcement", "public statement"]
+      "keywords": ["press release", "media announcement", "public statement"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Corporation Commission Filings",
-      "keywords": ["corporation commission", "filing", "business registration"]
+      "keywords": ["corporation commission", "filing", "business registration"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Public Filings",
-      "keywords": ["public filing", "government document", "official record"]
+      "keywords": ["public filing", "government document", "official record"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Development/Construction Plans",
-      "keywords": ["development plan", "construction plan", "site plan"]
+      "keywords": ["development plan", "construction plan", "site plan"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Expired Insurance Policies",
-      "keywords": ["expired insurance", "insurance policy", "coverage expired"]
+      "keywords": ["expired insurance", "insurance policy", "coverage expired"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Insurance",
-      "keywords": ["insurance", "policy", "coverage"]
+      "keywords": ["insurance", "policy", "coverage"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Audit/Compilation Reports",
-      "keywords": ["audit report", "compilation report", "financial statement"]
+      "keywords": ["audit report", "compilation report", "financial statement"],
+      "date_format": "year",
+      "subfolder": true
     },
     {
       "name": "Design Review Records",
-      "keywords": ["design review", "architectural review", "approval"]
+      "keywords": ["design review", "architectural review", "approval"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
       "name": "Reserve Studies",
-      "keywords": ["reserve study", "capital reserve", "funding plan"]
+      "keywords": ["reserve study", "capital reserve", "funding plan"],
+      "date_format": "year",
+      "subfolder": true
     },
     {
       "name": "Tax Records",
-      "keywords": ["tax record", "tax return", "IRS filing"]
+      "keywords": ["tax record", "tax return", "IRS filing"],
+      "date_format": "year",
+      "subfolder": false
     },
     {
       "name": "Employment/Personnel Records",
-      "keywords": ["employment record", "personnel file", "HR document"]
+      "keywords": ["employment record", "personnel file", "HR document"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     },
     {
-      "name": "Accounts Recievable",
-      "keywords": ["accounts receivable", "outstanding balance", "payment due"]
+      "name": "Accounts Receivable",
+      "keywords": ["accounts receivable", "outstanding balance", "payment due"],
+      "date_format": "month_year",
+      "subfolder": true
     },
     {
       "name": "Accounts Payable",
-      "keywords": ["accounts payable", "vendor invoice", "payment request"]
+      "keywords": ["accounts payable", "vendor invoice", "payment request"],
+      "date_format": "month_year",
+      "subfolder": true
     },
     {
       "name": "Bank Statements",
-      "keywords": ["bank statement", "account summary", "transaction history"]
+      "keywords": ["bank statement", "account summary", "transaction history"],
+      "date_format": "month_year",
+      "subfolder": true
     },
     {
       "name": "Board Packets",
-      "keywords": ["board packet", "meeting agenda", "board materials"]
+      "keywords": ["board packet", "meeting agenda", "board materials"],
+      "date_format": "full_date",
+      "subfolder": true
     },
     {
       "name": "Legal Correspondence",
-      "keywords": ["legal correspondence", "attorney letter", "legal notice"]
+      "keywords": ["legal correspondence", "attorney letter", "legal notice"],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     }
   ]
 }

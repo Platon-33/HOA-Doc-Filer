@@ -21,6 +21,8 @@ import pdfplumber
 import fitz  # pymupdf
 import pytesseract
 from PIL import Image
+import re
+from datetime import datetime
 
 
 def _config_path(filename):
@@ -166,19 +168,43 @@ def suggest_doc_type(text, doc_types=None):
     best_score = 0
 
     for doc_type in doc_types:
-        score = sum(1 for kw in doc_type["keywords"] if kw.lower() in text_lower)
+        keywords = doc_type.get("keywords", [])
+        if not keywords:
+            continue
+
+        score = sum(1 for kw in keywords if kw.lower() in text_lower)
         if score > best_score:
             best_score = score
             best_match = doc_type["name"]
 
     return best_match
 
+def suggest_date(text):
+    """Look for the first recognizable date in the text (e.g. '07/06/2022'
+    or '7/6/22') and normalize it to YYYY-MM-DD for the filename. Returns
+    None if nothing date-like is found - the review window will let you
+    type one in by hand in that case."""
+    # Matches things like 7/6/2022, 07/06/22, 12-31-2022
+    pattern = r"\b(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})\b"
+    match = re.search(pattern, text)
+    if not match:
+        return None
+
+    month, day, year = match.groups()
+    if len(year) == 2:
+        year = "20" + year  # assume 2000s - fine for HOA docs in practice
+
+    try:
+        parsed = datetime(int(year), int(month), int(day))
+        return parsed.strftime("%Y-%m-%d")
+    except ValueError:
+        return None
 
 def suggest(pdf_path):
     """Convenience function: given a PDF path, return a dict with the
     extracted header/footer text (trimmed for preview) plus suggested
-    property/doc type. Note: suggested_property is meant for choosing
-    the destination FOLDER, not the filename."""
+    property/doc type/date. Note: suggested_property is meant for
+    choosing the destination FOLDER, not the filename."""
     text = extract_text(pdf_path)
     return {
         "pdf_path": pdf_path,
@@ -186,6 +212,7 @@ def suggest(pdf_path):
         "has_text_layer": bool(text.strip()),
         "suggested_property": suggest_property(text),
         "suggested_doc_type": suggest_doc_type(text),
+        "suggested_date": suggest_date(text),
     }
 
 
@@ -207,3 +234,4 @@ if __name__ == "__main__":
         print(f"Time taken:         {elapsed:.2f}s")
         print("\n--- Text preview (header + footer only) ---")
         print(result["text_preview"])
+        print(f"Suggested date:     {result['suggested_date']}")
