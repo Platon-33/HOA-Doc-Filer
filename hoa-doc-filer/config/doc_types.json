@@ -67,6 +67,34 @@
     {
       "name": "Reserve Studies",
       "keywords": ["reserve study", "capital reserve", "funding plan"]
+    },
+    {
+      "name": "Tax Records",
+      "keywords": ["tax record", "tax return", "IRS filing"]
+    },
+    {
+      "name": "Employment/Personnel Records",
+      "keywords": ["employment record", "personnel file", "HR document"]
+    },
+    {
+      "name": "Accounts Recievable",
+      "keywords": ["accounts receivable", "outstanding balance", "payment due"]
+    },
+    {
+      "name": "Accounts Payable",
+      "keywords": ["accounts payable", "vendor invoice", "payment request"]
+    },
+    {
+      "name": "Bank Statements",
+      "keywords": ["bank statement", "account summary", "transaction history"]
+    },
+    {
+      "name": "Board Packets",
+      "keywords": ["board packet", "meeting agenda", "board materials"]
+    },
+    {
+      "name": "Legal Correspondence",
+      "keywords": ["legal correspondence", "attorney letter", "legal notice"]
     }
   ]
 }
