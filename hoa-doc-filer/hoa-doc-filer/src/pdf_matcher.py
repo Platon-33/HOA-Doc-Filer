@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """
 pdf_matcher.py
 
@@ -236,12 +235,3 @@ if __name__ == "__main__":
         print("\n--- Text preview (header + footer only) ---")
         print(result["text_preview"])
         print(f"Suggested date:     {result['suggested_date']}")
-=======
-import runpy
-from pathlib import Path
-
-
-if __name__ == "__main__":
-    target = Path(__file__).resolve().parent.parent / "hoa-doc-filer" / "src" / "pdf_matcher.py"
-    runpy.run_path(str(target), run_name="__main__")
->>>>>>> 824584040063ab6c4f9358df9936ba4e1d2b2496

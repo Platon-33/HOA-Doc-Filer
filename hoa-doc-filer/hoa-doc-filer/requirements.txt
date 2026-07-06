@@ -1,0 +1,8 @@
+# Talks to the Outlook desktop app on Windows
+pywin32==312
+
+# Extracts text from PDFs so we can suggest a property/doc type
+pdfplumber==0.11.4
+
+# Nicer console output while developing/debugging
+rich==13.7.1
