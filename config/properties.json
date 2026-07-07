@@ -2,12 +2,105 @@
   "_comment": "List every HOA/property here. 'name' is the folder name that will be created. 'aliases' are other ways the property might be written/spelled in emails or scanned documents - add as many as you notice over time.",
   "properties": [
     {
-      "name": "Sunset Ridge HOA",
-      "aliases": ["Sunset Ridge", "Sunset Ridge Homeowners"]
+      "name": "University Hills HOA",
+      "aliases": ["University Hills"]
     },
     {
-      "name": "Desert Palms Community",
-      "aliases": ["Desert Palms", "Desert Palms HOA"]
+      "name":"Amber Hills HOA",
+      "aliases":["Amber Hills"]
+    },
+    {
+      "name":"Arizona Carousel HOA",
+      "aliases":["Arizona Carousel", "AZ Carousel"]
+    },
+    {
+      "name":"Blackstone at Vistancia HOA",
+      "aliases":["Blackstone","Blackstone at Vistancia"]
+    },
+    {
+      "name":"Broadway San Marcos HOA",
+      "aliases":["Broadway San Marcos"]
+    },
+    {
+      "name":"Casa Fiesta HOA",
+      "aliases":["Casa Fiesta"]
+    },
+    {
+      "name":"Casa Linda HOA",
+      "aliases":["Casa Linda"]
+    },
+    {
+      "name":"Chapparel Estate HOA",
+      "aliases":["Chapparel Estate"]
+    },
+    {
+      "name":"Cinnebar HOA",
+      "aliases":["Cinnebar"]
+    },
+    {
+      "name":"Equestrian Manor HOA",
+      "aliases":["Equestrian Manor"]
+    },
+    {
+      "name":"Four Peaks Estates HOA",
+      "aliases":["Four Peaks", "Four Peaks Estates"]
+    },
+    {
+      "name":"Magma Ranch HOA",
+      "aliases":["Magma Ranch"]
+    },
+    {
+      "name":"Mistwood HOA",
+      "aliases":["Mistwood"]
+    },
+    {
+      "name":"Parkview Villas HOA",
+      "aliases":["Parkview Villas"]
+    },
+    {
+      "name":"Parkview Villas HOA",
+      "aliases":["Parkview Villas"]
+    },
+    {
+      "name":"Pasion En La Colina Del Cascabel HOA",
+      "aliases":["Passion", "Pasion En La Colina Del Cascabel"]
+    },
+    {
+      "name":"Pebble Beach HOA",
+      "aliases":["Pebble Beach"]
+    },
+    {
+      "name":"Pegasus Airpark HOA",
+      "aliases":["Pegasus Airpark"]
+    },
+    {
+      "name":"Terra de Oro HOA",
+      "aliases":["Terra de Oro"]
+    },
+    {
+      "name":"Pinnacle Peak Estates III HOA",
+      "aliases":["PPE III", "Pinnacle Peak Estates III", "Pinnacle Peak"]
+    },
+    {
+      "name":"Rancho Mirage HOA",
+      "aliases":["Rancho Mirage"]
+    },
+    {
+      "name":"Stellar Airpark HOA",
+      "aliases":["Stellar Airpark"]
+    },
+    {
+      "name":"Villa Royal at McCormick Ranch HOA",
+      "aliases":["Villa Royal", "McCormick Ranch", "Villa Royal @ McCormick Ranch"]
+    },
+    {
+      "name":"Village B at Vistancia HOA",
+      "aliases":["Village B", "Vistancia", "Village B @ Vistancia"]
+    },
+    {
+      "name":"Villages at Queen Creek HOA",
+      "aliases":["Villages at Queen Creek", "Villages @ Queen Creek"]
     }
+
   ]
 }
