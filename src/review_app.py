@@ -37,7 +37,8 @@ class ReviewApp:
     def __init__(self, root):
         self.root = root
         self.root.title("HOA Doc Filer - Review")
-        self.root.geometry("1050x750")
+        self.root.geometry("1100x820")
+        self.root.minsize(1000, 750)
 
         base_dir = paths.get_base_dir()
         config_dir = os.path.join(base_dir, "config")
@@ -240,7 +241,7 @@ class ReviewApp:
             pixmap = page.get_pixmap(matrix=fitz.Matrix(2.5, 2.5))
             doc.close()
             image = Image.open(io.BytesIO(pixmap.tobytes("png")))
-            image.thumbnail((650, 850))
+            image.thumbnail((600, 700))
             self.preview_image = ImageTk.PhotoImage(image)  # kept as attribute - Tkinter needs the reference to persist
             self.preview_label.config(image=self.preview_image, text="")
         except Exception as e:
