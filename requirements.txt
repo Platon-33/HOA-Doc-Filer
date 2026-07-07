@@ -6,3 +6,6 @@ pdfplumber==0.11.4
 
 # Nicer console output while developing/debugging
 rich==13.7.1
+
+# Used to create a system tray icon for the app
+pystray==0.19.5

@@ -3,104 +3,171 @@
   "properties": [
     {
       "name": "University Hills HOA",
-      "aliases": ["University Hills"]
+      "aliases": [
+        "University Hills"
+      ]
     },
     {
-      "name":"Amber Hills HOA",
-      "aliases":["Amber Hills"]
+      "name": "Amber Hills HOA",
+      "aliases": [
+        "Amber Hills"
+      ]
     },
     {
-      "name":"Arizona Carousel HOA",
-      "aliases":["Arizona Carousel", "AZ Carousel"]
+      "name": "Arizona Carousel HOA",
+      "aliases": [
+        "Arizona Carousel",
+        "AZ Carousel"
+      ]
     },
     {
-      "name":"Blackstone at Vistancia HOA",
-      "aliases":["Blackstone","Blackstone at Vistancia"]
+      "name": "Blackstone at Vistancia HOA",
+      "aliases": [
+        "Blackstone",
+        "Blackstone at Vistancia"
+      ]
     },
     {
-      "name":"Broadway San Marcos HOA",
-      "aliases":["Broadway San Marcos"]
+      "name": "Broadway San Marcos HOA",
+      "aliases": [
+        "Broadway San Marcos"
+      ]
     },
     {
-      "name":"Casa Fiesta HOA",
-      "aliases":["Casa Fiesta"]
+      "name": "Casa Fiesta HOA",
+      "aliases": [
+        "Casa Fiesta"
+      ]
     },
     {
-      "name":"Casa Linda HOA",
-      "aliases":["Casa Linda"]
+      "name": "Casa Linda HOA",
+      "aliases": [
+        "Casa Linda"
+      ]
     },
     {
-      "name":"Chapparel Estate HOA",
-      "aliases":["Chapparel Estate"]
+      "name": "Chapparel Estate HOA",
+      "aliases": [
+        "Chapparel Estate"
+      ]
     },
     {
-      "name":"Cinnebar HOA",
-      "aliases":["Cinnebar"]
+      "name": "Cinnebar HOA",
+      "aliases": [
+        "Cinnebar"
+      ]
     },
     {
-      "name":"Equestrian Manor HOA",
-      "aliases":["Equestrian Manor"]
+      "name": "Equestrian Manor HOA",
+      "aliases": [
+        "Equestrian Manor"
+      ]
     },
     {
-      "name":"Four Peaks Estates HOA",
-      "aliases":["Four Peaks", "Four Peaks Estates"]
+      "name": "Four Peaks Estates HOA",
+      "aliases": [
+        "Four Peaks",
+        "Four Peaks Estates"
+      ]
     },
     {
-      "name":"Magma Ranch HOA",
-      "aliases":["Magma Ranch"]
+      "name": "Magma Ranch HOA",
+      "aliases": [
+        "Magma Ranch"
+      ]
     },
     {
-      "name":"Mistwood HOA",
-      "aliases":["Mistwood"]
+      "name": "Mistwood HOA",
+      "aliases": [
+        "Mistwood"
+      ]
     },
     {
-      "name":"Parkview Villas HOA",
-      "aliases":["Parkview Villas"]
+      "name": "Parkview Villas HOA",
+      "aliases": [
+        "Parkview Villas"
+      ]
     },
     {
-      "name":"Parkview Villas HOA",
-      "aliases":["Parkview Villas"]
+      "name": "Parkview Villas HOA",
+      "aliases": [
+        "Parkview Villas"
+      ]
     },
     {
-      "name":"Pasion En La Colina Del Cascabel HOA",
-      "aliases":["Passion", "Pasion En La Colina Del Cascabel"]
+      "name": "Pasion En La Colina Del Cascabel HOA",
+      "aliases": [
+        "Passion",
+        "Pasion En La Colina Del Cascabel"
+      ]
     },
     {
-      "name":"Pebble Beach HOA",
-      "aliases":["Pebble Beach"]
+      "name": "Pebble Beach HOA",
+      "aliases": [
+        "Pebble Beach"
+      ]
     },
     {
-      "name":"Pegasus Airpark HOA",
-      "aliases":["Pegasus Airpark"]
+      "name": "Pegasus Airpark HOA",
+      "aliases": [
+        "Pegasus Airpark"
+      ]
     },
     {
-      "name":"Terra de Oro HOA",
-      "aliases":["Terra de Oro"]
+      "name": "Terra de Oro HOA",
+      "aliases": [
+        "Terra de Oro"
+      ]
     },
     {
-      "name":"Pinnacle Peak Estates III HOA",
-      "aliases":["PPE III", "Pinnacle Peak Estates III", "Pinnacle Peak"]
+      "name": "Pinnacle Peak Estates III HOA",
+      "aliases": [
+        "PPE III",
+        "Pinnacle Peak Estates III",
+        "Pinnacle Peak"
+      ]
     },
     {
-      "name":"Rancho Mirage HOA",
-      "aliases":["Rancho Mirage"]
+      "name": "Rancho Mirage HOA",
+      "aliases": [
+        "Rancho Mirage"
+      ]
     },
     {
-      "name":"Stellar Airpark HOA",
-      "aliases":["Stellar Airpark"]
+      "name": "Stellar Airpark HOA",
+      "aliases": [
+        "Stellar Airpark"
+      ]
     },
     {
-      "name":"Villa Royal at McCormick Ranch HOA",
-      "aliases":["Villa Royal", "McCormick Ranch", "Villa Royal @ McCormick Ranch"]
+      "name": "Villa Royal at McCormick Ranch HOA",
+      "aliases": [
+        "Villa Royal",
+        "McCormick Ranch",
+        "Villa Royal @ McCormick Ranch"
+      ]
     },
     {
-      "name":"Village B at Vistancia HOA",
-      "aliases":["Village B", "Vistancia", "Village B @ Vistancia"]
+      "name": "Village B at Vistancia HOA",
+      "aliases": [
+        "Village B",
+        "Vistancia",
+        "Village B @ Vistancia"
+      ]
     },
     {
-      "name":"Villages at Queen Creek HOA",
-      "aliases":["Villages at Queen Creek", "Villages @ Queen Creek"]
+      "name": "Villages at Queen Creek HOA",
+      "aliases": [
+        "Villages at Queen Creek",
+        "Villages @ Queen Creek"
+      ]
+    },
+    {
+      "name": "Sunland Villas III",
+      "aliases": [
+        "Sunland Villas III",
+        "Sunland Villas 3"
+      ]
     }
-
   ]
 }

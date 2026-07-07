@@ -20,7 +20,10 @@
 
   "_comment_fallback": "If a PDF can't be confidently matched to a property and/or doc type, it goes here instead of being guessed wrong or blocked. Check this folder periodically and either file those manually or add a new alias/keyword so similar docs match automatically next time.",
   "unsorted_folder_name": "_Needs Review",
-  
+
   "_comment_output": "The root folder where PropertyName/DocType subfolders get created. Point this at wherever you currently drag files into before uploading to SharePoint.",
-  "output_root": "sorted"
+  "output_root": "sorted",
+
+  "_comment_background": "How often (in minutes) the background tray app checks Outlook for new scans when running in always-on mode.",
+  "background_check_interval_minutes": 7
 }

@@ -222,7 +222,7 @@
         "vendor invoice",
         "payment request"
       ],
-      "date_format": "month_year",
+      "date_format": "year_month",
       "subfolder": true
     },
     {
@@ -232,7 +232,7 @@
         "account summary",
         "transaction history"
       ],
-      "date_format": "month_year",
+      "date_format": "year_month",
       "subfolder": true
     },
     {
