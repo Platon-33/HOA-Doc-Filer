@@ -27,6 +27,12 @@ import config_editor
 ADD_NEW_PROPERTY = "+ Add New Property..."
 ADD_NEW_DOC_TYPE = "+ Add New Document Type..."
 
+PREVIEW_MAX_WIDTH = 600
+PREVIEW_MAX_HEIGHT = 700
+ZOOM_STEP = 1.25
+ZOOM_MIN = 0.5
+ZOOM_MAX = 4.0
+
 
 def load_json(path):
     with open(path, "r") as f:
@@ -37,8 +43,8 @@ class ReviewApp:
     def __init__(self, root):
         self.root = root
         self.root.title("HOA Doc Filer - Review")
-        self.root.geometry("1100x820")
-        self.root.minsize(1000, 750)
+        self.root.geometry("1150x880")
+        self.root.minsize(1050, 800)
 
         base_dir = paths.get_base_dir()
         config_dir = os.path.join(base_dir, "config")
@@ -54,6 +60,11 @@ class ReviewApp:
         self.property_names = [p["name"] for p in self.properties]
         self.doc_type_names = [d["name"] for d in self.doc_types]
 
+        # Preview state - reset every time a new PDF loads
+        self.base_image = None      # full-resolution rendered page (portrait-corrected)
+        self.user_rotation = 0      # extra rotation the user dialed in with the Rotate button
+        self.zoom_level = 1.0
+
         self._build_ui()
         self._load_current_pdf()
 
@@ -61,11 +72,33 @@ class ReviewApp:
         main = ttk.Frame(self.root, padding=15)
         main.pack(fill="both", expand=True)
 
-        # Left side: page preview image
-        self.preview_label = ttk.Label(main)
-        self.preview_label.grid(row=0, column=0, rowspan=10, padx=(0, 20), sticky="n")
+        # --- Left side: preview toolbar + scrollable canvas ---
+        preview_frame = ttk.Frame(main)
+        preview_frame.grid(row=0, column=0, rowspan=10, padx=(0, 20), sticky="n")
 
-        # Right side: filename + controls
+        toolbar = ttk.Frame(preview_frame)
+        toolbar.pack(fill="x", pady=(0, 6))
+        ttk.Button(toolbar, text="Zoom In", command=self._zoom_in).pack(side="left", padx=(0, 4))
+        ttk.Button(toolbar, text="Zoom Out", command=self._zoom_out).pack(side="left", padx=(0, 4))
+        ttk.Button(toolbar, text="Reset", command=self._zoom_reset).pack(side="left", padx=(0, 12))
+        ttk.Button(toolbar, text="Rotate", command=self._rotate_preview).pack(side="left")
+
+        canvas_area = ttk.Frame(preview_frame)
+        canvas_area.pack()
+
+        self.preview_canvas = tk.Canvas(
+            canvas_area, width=PREVIEW_MAX_WIDTH, height=PREVIEW_MAX_HEIGHT,
+            bg="#d9d9d9", highlightthickness=1, highlightbackground="#999999"
+        )
+        v_scroll = ttk.Scrollbar(canvas_area, orient="vertical", command=self.preview_canvas.yview)
+        h_scroll = ttk.Scrollbar(preview_frame, orient="horizontal", command=self.preview_canvas.xview)
+        self.preview_canvas.configure(yscrollcommand=v_scroll.set, xscrollcommand=h_scroll.set)
+
+        self.preview_canvas.grid(row=0, column=0)
+        v_scroll.grid(row=0, column=1, sticky="ns")
+        h_scroll.pack(fill="x")
+
+        # --- Right side: filename + controls ---
         ttk.Label(main, text="File:", font=("Segoe UI", 9, "bold")).grid(row=0, column=1, sticky="w")
         self.filename_label = ttk.Label(main, text="", wraplength=280)
         self.filename_label.grid(row=1, column=1, sticky="w", pady=(0, 15))
@@ -107,6 +140,49 @@ class ReviewApp:
 
         self.status_label = ttk.Label(main, text="", foreground="gray")
         self.status_label.grid(row=10, column=1, sticky="w", pady=(15, 0))
+
+    # ---------- Preview rendering (zoom / rotate) ----------
+
+    def _render_preview(self):
+        """Redraws the canvas using self.base_image, self.user_rotation,
+        and self.zoom_level. Called any time one of those changes."""
+        self.preview_canvas.delete("all")
+
+        if self.base_image is None:
+            return
+
+        image = self.base_image
+        if self.user_rotation:
+            image = image.rotate(-self.user_rotation, expand=True)
+
+        # Scale to fit the canvas at zoom 1.0, then apply the zoom level on top
+        fit_ratio = min(PREVIEW_MAX_WIDTH / image.width, PREVIEW_MAX_HEIGHT / image.height, 1.0)
+        display_w = max(1, int(image.width * fit_ratio * self.zoom_level))
+        display_h = max(1, int(image.height * fit_ratio * self.zoom_level))
+
+        resized = image.resize((display_w, display_h), Image.LANCZOS)
+        self.preview_photo = ImageTk.PhotoImage(resized)  # kept as attribute so Tkinter doesn't garbage-collect it
+
+        self.preview_canvas.create_image(0, 0, anchor="nw", image=self.preview_photo)
+        self.preview_canvas.config(scrollregion=(0, 0, display_w, display_h))
+
+    def _zoom_in(self):
+        self.zoom_level = min(self.zoom_level * ZOOM_STEP, ZOOM_MAX)
+        self._render_preview()
+
+    def _zoom_out(self):
+        self.zoom_level = max(self.zoom_level / ZOOM_STEP, ZOOM_MIN)
+        self._render_preview()
+
+    def _zoom_reset(self):
+        self.zoom_level = 1.0
+        self._render_preview()
+
+    def _rotate_preview(self):
+        self.user_rotation = (self.user_rotation + 90) % 360
+        self._render_preview()
+
+    # ---------- Add-new dialogs ----------
 
     def _on_property_change(self, event=None):
         if self.property_var.get() == ADD_NEW_PROPERTY:
@@ -219,9 +295,16 @@ class ReviewApp:
                 return d
         return None
 
+    # ---------- PDF queue ----------
+
     def _load_current_pdf(self):
+        # Reset preview state for the new document
+        self.base_image = None
+        self.user_rotation = 0
+        self.zoom_level = 1.0
+
         if self.queue_index >= len(self.pdf_queue):
-            self.preview_label.config(image="", text="")
+            self._render_preview()
             self.filename_label.config(text="")
             self.property_var.set("")
             self.doc_type_var.set("")
@@ -234,18 +317,30 @@ class ReviewApp:
         self.filename_label.config(text=os.path.basename(pdf_path))
         self.status_label.config(text=f"Reviewing {self.queue_index + 1} of {len(self.pdf_queue)}")
 
-        # Render a page 1 thumbnail so you can actually see the document
+        # Render page 1 at high resolution so zooming in still looks sharp
         try:
             doc = fitz.open(pdf_path)
             page = doc[0]
-            pixmap = page.get_pixmap(matrix=fitz.Matrix(2.5, 2.5))
+            pixmap = page.get_pixmap(matrix=fitz.Matrix(3, 3))
             doc.close()
             image = Image.open(io.BytesIO(pixmap.tobytes("png")))
-            image.thumbnail((600, 700))
-            self.preview_image = ImageTk.PhotoImage(image)  # kept as attribute - Tkinter needs the reference to persist
-            self.preview_label.config(image=self.preview_image, text="")
+
+            # Always show portrait - rotate if the page came in wider than tall.
+            # This is a best guess (we can't know which way is "up" from shape
+            # alone) - use the Rotate button if it guesses the wrong direction.
+            if image.width > image.height:
+                image = image.rotate(-90, expand=True)
+
+            self.base_image = image
         except Exception as e:
-            self.preview_label.config(image="", text=f"(preview unavailable)\n{e}")
+            self.base_image = None
+            self.preview_canvas.delete("all")
+            self.preview_canvas.create_text(
+                PREVIEW_MAX_WIDTH // 2, PREVIEW_MAX_HEIGHT // 2,
+                text=f"(preview unavailable)\n{e}", width=PREVIEW_MAX_WIDTH - 20, fill="#555555"
+            )
+
+        self._render_preview()
 
         # Get the OCR-based suggestion
         try:
