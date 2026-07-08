@@ -212,7 +212,7 @@
         "outstanding balance",
         "payment due"
       ],
-      "date_format": "month_year",
+      "date_format": "year_month",
       "subfolder": true
     },
     {

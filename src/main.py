@@ -8,7 +8,6 @@ into the .exe - one double-click does everything:
 2. Opens the review window so you can confirm/correct and file them
 
 Run with: python src/main.py
-(or just double-click the packaged .exe once it's built)
 """
 
 import sys

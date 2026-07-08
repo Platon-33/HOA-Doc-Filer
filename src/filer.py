@@ -60,7 +60,7 @@ def _format_date_component(date_format, date_str):
     if date_format == "year_month":
         return f"{year}.{month:02d}"
     elif date_format == "full_date":
-        return f"{month}.{day}.{year}"
+        return f"{year}.{month}.{day}"
     elif date_format == "year":
         return f"{year}"
     return None
@@ -158,8 +158,7 @@ def file_as_unsorted(pdf_path, settings):
 
 
 if __name__ == "__main__":
-    # Quick manual test:
-    #   python src/filer.py downloads/1636_001.pdf "University Hills" "Invoices" "2022-07-01"
+    #Command-line interface for filing a single PDF.
     import sys
     import json
 
