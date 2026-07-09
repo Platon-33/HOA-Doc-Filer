@@ -12,6 +12,7 @@ Run this with: python src/outlook_watcher.py
 import json
 import os
 import win32com.client
+import paths
 
 # PidTagSenderSmtpAddress - reliably resolves the real SMTP address even
 # for Exchange resource/device accounts (like a networked printer) where
@@ -34,9 +35,7 @@ def get_real_sender_address(item):
 def load_settings():
     """Read config/settings.json so the printer address / folder names
     live in one editable place instead of being hardcoded here."""
-    config_path = os.path.join(
-        os.path.dirname(__file__), "..", "config", "settings.json"
-    )
+    config_path = os.path.join(paths.get_base_dir(), "config", "settings.json")
     with open(config_path, "r") as f:
         return json.load(f)
 
@@ -73,8 +72,7 @@ def find_and_save_scans(settings):
         watched_folder, settings["processed_folder_name"]
     )
 
-    download_dir = os.path.join(
-        os.path.dirname(__file__), "..", settings["download_folder"]
+    download_dir = os.path.join(paths.get_base_dir(), settings["download_folder"]
     )
     os.makedirs(download_dir, exist_ok=True)
 

@@ -50,9 +50,13 @@ def _configure_tesseract():
     """Point pytesseract at the installed Tesseract executable, using the
     path from settings.json so it's editable without touching code."""
     settings = load_settings()
+    default_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
     tesseract_path = settings.get("tesseract_path")
+
     if tesseract_path:
         pytesseract.pytesseract.tesseract_cmd = tesseract_path
+    elif os.name == "nt" or os.path.exists(default_path):
+        pytesseract.pytesseract.tesseract_cmd = default_path
 
 
 def _correct_orientation(image):
@@ -170,10 +174,11 @@ def suggest_doc_type(text, doc_types=None):
     best_score = 0
 
     for doc_type in doc_types:
-        score = sum(1 for kw in doc_type["keywords"] if kw.lower() in text_lower)
+        keywords = doc_type.get("keywords", []) or []
+        score = sum(1 for kw in keywords if kw.lower() in text_lower)
         if score > best_score:
             best_score = score
-            best_match = doc_type["name"]
+            best_match = doc_type.get("name")
 
     return best_match
 

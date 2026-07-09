@@ -230,7 +230,8 @@
       "keywords": [
         "bank statement",
         "account summary",
-        "transaction history"
+        "transaction history",
+        "balance sheet"
       ],
       "date_format": "year_month",
       "subfolder": true
@@ -262,6 +263,15 @@
         "covenants",
         "conditions",
         "restrictions"
+      ],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
+    },
+    {
+      "name": "Financial Report Package",
+      "keywords": [
+        "Financial Report Package"
       ],
       "date_format": null,
       "subfolder": true,

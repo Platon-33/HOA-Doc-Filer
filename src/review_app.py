@@ -23,6 +23,7 @@ import pdf_matcher
 import filer
 import paths
 import config_editor
+import sorted_browser
 
 ADD_NEW_PROPERTY = "+ Add New Property..."
 ADD_NEW_DOC_TYPE = "+ Add New Document Type..."
@@ -59,6 +60,7 @@ class ReviewApp:
 
         self.property_names = [p["name"] for p in self.properties]
         self.doc_type_names = [d["name"] for d in self.doc_types]
+        self.sorted_browser_window = None
 
         # Preview state - reset every time a new PDF loads
         self.base_image = None      # full-resolution rendered page (portrait-corrected)
@@ -99,26 +101,26 @@ class ReviewApp:
         h_scroll.pack(fill="x")
 
         # --- Right side: filename + controls ---
-        ttk.Label(main, text="File:", font=("Segoe UI", 9, "bold")).grid(row=0, column=1, sticky="w")
+        ttk.Label(main, text="File:", font=("Segoe UI", 9, "bold")).grid(row=1, column=1, sticky="w")
         self.filename_label = ttk.Label(main, text="", wraplength=280)
-        self.filename_label.grid(row=1, column=1, sticky="w", pady=(0, 15))
+        self.filename_label.grid(row=2, column=1, sticky="w", pady=(0, 15))
 
-        ttk.Label(main, text="Property:").grid(row=2, column=1, sticky="w")
+        ttk.Label(main, text="Property:").grid(row=3, column=1, sticky="w")
         self.property_var = tk.StringVar()
         self.property_combo = ttk.Combobox(
             main, textvariable=self.property_var, values=self.property_names + [ADD_NEW_PROPERTY],
             width=38, state="readonly"
         )
-        self.property_combo.grid(row=3, column=1, sticky="w", pady=(0, 12))
+        self.property_combo.grid(row=4, column=1, sticky="w", pady=(0, 12))
         self.property_combo.bind("<<ComboboxSelected>>", self._on_property_change)
 
-        ttk.Label(main, text="Document Type:").grid(row=4, column=1, sticky="w")
+        ttk.Label(main, text="Document Type:").grid(row=5, column=1, sticky="w")
         self.doc_type_var = tk.StringVar()
         self.doc_type_combo = ttk.Combobox(
             main, textvariable=self.doc_type_var, values=self.doc_type_names + [ADD_NEW_DOC_TYPE],
             width=38, state="readonly"
         )
-        self.doc_type_combo.grid(row=5, column=1, sticky="w", pady=(0, 12))
+        self.doc_type_combo.grid(row=6, column=1, sticky="w", pady=(0, 12))
         self.doc_type_combo.bind("<<ComboboxSelected>>", self._on_doc_type_change)
 
         # Date field (shown only when the doc type needs one)
@@ -133,13 +135,23 @@ class ReviewApp:
 
         # Buttons
         button_frame = ttk.Frame(main)
-        button_frame.grid(row=9, column=1, sticky="w", pady=(20, 0))
+        button_frame.grid(row=12, column=1, sticky="w", pady=(20, 0))
 
         ttk.Button(button_frame, text="File It", command=self._on_file_it).pack(side="left", padx=(0, 8))
-        ttk.Button(button_frame, text="Send to Needs Review", command=self._on_needs_review).pack(side="left")
+        ttk.Button(button_frame, text="Send to Needs Review", command=self._on_needs_review).pack(side="left", padx=(0, 8))
 
         self.status_label = ttk.Label(main, text="", foreground="gray")
-        self.status_label.grid(row=10, column=1, sticky="w", pady=(15, 0))
+        self.status_label.grid(row=13, column=1, sticky="w", pady=(15, 0))
+
+        self.browser_header = ttk.Frame(main)
+        self.browser_header.grid(row=0, column=1, sticky="e", pady=(0, 8))
+        self.sorted_folder_button = ttk.Button(
+            self.browser_header,
+            text="Open Sorted Folder",
+            command=self._open_sorted_folder_window,
+            width=20,
+        )
+        self.sorted_folder_button.pack(side="right")
 
     # ---------- Preview rendering (zoom / rotate) ----------
 
@@ -276,15 +288,15 @@ class ReviewApp:
         needs_manual = bool(doc_type_config and doc_type_config.get("manual_filename"))
 
         if needs_date:
-            self.date_label.grid(row=6, column=1, sticky="w")
-            self.date_entry.grid(row=7, column=1, sticky="w", pady=(0, 12))
+            self.date_label.grid(row=7, column=1, sticky="w")
+            self.date_entry.grid(row=8, column=1, sticky="w", pady=(0, 12))
         else:
             self.date_label.grid_remove()
             self.date_entry.grid_remove()
 
         if needs_manual:
-            self.manual_label.grid(row=6, column=1, sticky="w")
-            self.manual_entry.grid(row=7, column=1, sticky="w", pady=(0, 12))
+            self.manual_label.grid(row=9, column=1, sticky="w")
+            self.manual_entry.grid(row=10, column=1, sticky="w", pady=(0, 12))
         else:
             self.manual_label.grid_remove()
             self.manual_entry.grid_remove()
@@ -296,6 +308,23 @@ class ReviewApp:
         return None
 
     # ---------- PDF queue ----------
+
+    def _open_sorted_folder_window(self):
+        if self.sorted_browser_window is not None and self.sorted_browser_window.winfo_exists():
+            self.sorted_browser_window.lift()
+            self.sorted_browser_window.focus_force()
+            return
+
+        self.sorted_browser_window = tk.Toplevel(self.root)
+        self.sorted_browser_window.title("Sorted Folder")
+        self.sorted_browser_window.geometry("900x600")
+        self.sorted_browser_window.minsize(600, 400)
+
+        panel = sorted_browser.SortedBrowserPanel(
+            self.sorted_browser_window,
+            close_callback=self.sorted_browser_window.destroy,
+        )
+        panel.frame.pack(fill="both", expand=True)
 
     def _load_current_pdf(self):
         # Reset preview state for the new document
