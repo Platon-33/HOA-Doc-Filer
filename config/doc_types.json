@@ -192,7 +192,7 @@
         "IRS filing"
       ],
       "date_format": "year",
-      "subfolder": false
+      "subfolder": true
     },
     {
       "name": "Employment/Personnel Records",
@@ -273,6 +273,13 @@
       "keywords": [
         "Financial Report Package"
       ],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
+    },
+    {
+      "name": "ARC",
+      "keywords": [],
       "date_format": null,
       "subfolder": true,
       "manual_filename": true
