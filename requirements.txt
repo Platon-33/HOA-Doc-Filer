@@ -9,3 +9,5 @@ rich==13.7.1
 
 # Used to create a system tray icon for the app
 pystray==0.19.5
+
+python-dateutil==2.9.0

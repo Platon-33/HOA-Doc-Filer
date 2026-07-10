@@ -19,6 +19,7 @@ import os
 import io
 import re
 from datetime import datetime
+from dateutil import parser as date_parser
 import pdfplumber
 import fitz  # pymupdf
 import pytesseract
@@ -183,26 +184,40 @@ def suggest_doc_type(text, doc_types=None):
     return best_match
 
 
+DATE_CANDIDATE_PATTERN = re.compile(
+    r"""
+    \b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b                     # 7/6/2022 or 07-06-22
+    |
+    \b[A-Za-z]{3,9}\.?\s+\d{1,2},?\s+\d{4}\b              # July 6, 2022 / Jul. 6 2022
+    |
+    \b\d{1,2}\s+[A-Za-z]{3,9}\.?,?\s+\d{4}\b              # 6 July 2022
+    """,
+    re.VERBOSE,
+)
+
+
 def suggest_date(text):
-    """Look for the first recognizable date in the text (e.g. '07/06/2022'
-    or '7/6/22') and normalize it to YYYY-MM-DD for the filename. Returns
-    None if nothing date-like is found - the review window will let you
-    type one in by hand in that case."""
-    # Matches things like 7/6/2022, 07/06/22, 12-31-2022
-    pattern = r"\b(\d{1,2})[/-](\d{1,2})[/-](\d{2,4})\b"
-    match = re.search(pattern, text)
+    """Look for the first recognizable date in the text - numeric
+    (7/6/2022) or written out (July 6, 2022 / 6 July 2022) - and
+    normalize it to YYYY-MM-DD for the filename. Returns None if
+    nothing date-like is found - the review window will let you type
+    one in by hand in that case.
+
+    Note: numeric dates are assumed to be month/day/year (the US
+    convention used on these documents in practice). Ambiguous cases
+    (e.g. 3/4/2022) can still come out wrong if a document happens to
+    use day/month order instead - always worth a quick glance before
+    filing."""
+    match = DATE_CANDIDATE_PATTERN.search(text)
     if not match:
         return None
 
-    month, day, year = match.groups()
-    if len(year) == 2:
-        year = "20" + year  # assume 2000s - fine for HOA docs in practice
-
     try:
-        parsed = datetime(int(year), int(month), int(day))
-        return parsed.strftime("%Y-%m-%d")
-    except ValueError:
+        parsed = date_parser.parse(match.group(0), dayfirst=False, fuzzy=True)
+    except (ValueError, OverflowError):
         return None
+
+    return parsed.strftime("%Y-%m-%d")
 
 
 def suggest(pdf_path):

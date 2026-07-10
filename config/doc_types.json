@@ -283,6 +283,22 @@
       "date_format": null,
       "subfolder": true,
       "manual_filename": true
+    },
+    {
+      "name": "Lot File",
+      "keywords": [
+        "lot"
+      ],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
+    },
+    {
+      "name": "Governing Documents",
+      "keywords": [],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
     }
   ]
 }
