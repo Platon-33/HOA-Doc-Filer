@@ -231,7 +231,8 @@
         "bank statement",
         "account summary",
         "transaction history",
-        "balance sheet"
+        "balance sheet",
+        "bank"
       ],
       "date_format": "year_month",
       "subfolder": true
@@ -279,23 +280,44 @@
     },
     {
       "name": "ARC",
-      "keywords": [],
+      "keywords": [
+        "ARC"
+      ],
       "date_format": null,
       "subfolder": true,
       "manual_filename": true
     },
+    
+     {
+      "name": "Lot Files",
+      "keywords": ["lot files", "unit lot number", "document description"],
+      "date_format": null,
+      "subfolder": true,
+      "filename_source": "lot_number"
+    },
     {
-      "name": "Lot File",
+      "name": "Governing Documents",
       "keywords": [
-        "lot"
+        "Governing Documents"
       ],
       "date_format": null,
       "subfolder": true,
       "manual_filename": true
     },
     {
-      "name": "Governing Documents",
-      "keywords": [],
+      "name": "Estimates",
+      "keywords": [
+        "estimate"  
+      ],
+      "date_format": null,
+      "subfolder": true,
+      "manual_filename": true
+    },
+    {
+      "name": "Financial Statements",
+      "keywords": [
+        "Financial Statements"
+      ],
       "date_format": null,
       "subfolder": true,
       "manual_filename": true

@@ -219,6 +219,39 @@ def suggest_date(text):
 
     return parsed.strftime("%Y-%m-%d")
 
+def extract_full_first_page_text(pdf_path):
+    """Full text of just page 1 (not cropped to header/footer). Used
+    for document types like Lot Files where the field we need (the lot
+    number) can appear anywhere on the page - not reliably near the
+    top or bottom, so the fast header/footer crop won't catch it."""
+    with pdfplumber.open(pdf_path) as pdf:
+        page = pdf.pages[0]
+        text = page.extract_text() or ""
+
+    if text.strip():
+        return text
+
+    # Fallback to OCR on the full page if there's no embedded text layer
+    _configure_tesseract()
+    doc = fitz.open(pdf_path)
+    page = doc[0]
+    pixmap = page.get_pixmap(matrix=fitz.Matrix(2, 2))
+    image = Image.open(io.BytesIO(pixmap.tobytes("png")))
+    doc.close()
+    image = _correct_orientation(image)
+    return pytesseract.image_to_string(image)
+
+
+LOT_NUMBER_PATTERN = re.compile(r"Unit Lot Number\s*\n?\s*(\d+)", re.IGNORECASE)
+
+
+def suggest_lot_number(pdf_path):
+    """Look for a 'Unit Lot Number' field on page 1 and return just the
+    number. Returns None if the field isn't found - the review window
+    will let you type one in by hand in that case."""
+    text = extract_full_first_page_text(pdf_path)
+    match = LOT_NUMBER_PATTERN.search(text)
+    return match.group(1) if match else None
 
 def suggest(pdf_path):
     """Convenience function: given a PDF path, return a dict with the

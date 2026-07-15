@@ -133,6 +133,11 @@ class ReviewApp:
         self.manual_var = tk.StringVar()
         self.manual_entry = ttk.Entry(main, textvariable=self.manual_var, width=40)
 
+        # Lot number field (shown only for doc types with filename_source == lot_number)
+        self.lot_number_label = ttk.Label(main, text="Lot Number:")
+        self.lot_number_var = tk.StringVar()
+        self.lot_number_entry = ttk.Entry(main, textvariable=self.lot_number_var, width=40)
+
         # Buttons
         button_frame = ttk.Frame(main)
         button_frame.grid(row=12, column=1, sticky="w", pady=(20, 0))
@@ -286,6 +291,20 @@ class ReviewApp:
         doc_type_config = self._get_doc_type_config(self.doc_type_var.get())
         needs_date = bool(doc_type_config and doc_type_config.get("date_format"))
         needs_manual = bool(doc_type_config and doc_type_config.get("manual_filename"))
+        needs_lot_number = bool(doc_type_config and doc_type_config.get("filename_source") == "lot_number")
+
+        if needs_lot_number:
+            self.lot_number_label.grid(row=6, column=1, sticky="w")
+            self.lot_number_entry.grid(row=7, column=1, sticky="w", pady=(0, 12))
+            if not self.lot_number_var.get():
+                try:
+                    suggested = pdf_matcher.suggest_lot_number(self.current_pdf_path)
+                    self.lot_number_var.set(suggested or "")
+                except Exception:
+                    pass
+        else:
+            self.lot_number_label.grid_remove()
+            self.lot_number_entry.grid_remove()
 
         if needs_date:
             self.date_label.grid(row=7, column=1, sticky="w")
@@ -382,6 +401,7 @@ class ReviewApp:
         self.doc_type_var.set(result.get("suggested_doc_type") or "")
         self.date_var.set(result.get("suggested_date") or "")
         self.manual_var.set("")
+        self.lot_number_var.set("")
 
         self._on_doc_type_change()
 
@@ -403,6 +423,7 @@ class ReviewApp:
                 self.settings,
                 date_str=self.date_var.get().strip() or None,
                 manual_name=self.manual_var.get().strip() or None,
+                lot_number=self.lot_number_var.get().strip() or None,
             )
         except ValueError as e:
             messagebox.showerror("Can't file yet", str(e))

@@ -162,6 +162,18 @@
         "Sunland Villas III",
         "Sunland Villas 3"
       ]
+    },
+    {
+      "name": "Casa Mirage HOA",
+      "aliases": [
+        "Casa Mirage"
+      ]
+    },
+    {
+      "name": "Equestrian Ranch HOA",
+      "aliases": [
+        "Equestrian Ranch"
+      ]
     }
   ]
 }

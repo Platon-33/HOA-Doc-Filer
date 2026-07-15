@@ -8,6 +8,7 @@ doc type's own naming convention:
   - Invoices           -> Invoices 7.2022.pdf          (month.year)
   - Meeting Minutes    -> Meeting Minutes 2.25.2013.pdf (full date)
   - Tax Returns        -> Tax Returns 2022.pdf          (year only)
+  - Lot Files          -> LOT 1008.pdf                  (extracted lot number)
   - Governing Documents, Insurance, Violations,
     Correspondence     -> whatever exact title you type in
                            (these are one-off documents, not a
@@ -23,6 +24,7 @@ folders rather than in their own subfolder.
 import os
 import re
 import shutil
+
 import paths
 
 
@@ -50,33 +52,42 @@ def make_unique_path(path):
 
 def _format_date_component(date_format, date_str):
     """date_str is an ISO date like '2022-07-01'. Returns the date
-    portion of the filename in this doc type's convention."""
+    portion of the filename in this doc type's convention. No leading
+    zeros on month/day, matching how these are named by hand (e.g.
+    '7.2022' not '07.2022')."""
     if not date_format or not date_str:
         return None
 
     year, month, day = date_str.split("-")
     year, month, day = int(year), int(month), int(day)
 
-    if date_format == "year_month":
-        return f"{year}.{month:02d}"
+    if date_format == "month_year":
+        return f"{month}.{year}"
     elif date_format == "full_date":
-        return f"{year}.{month}.{day}"
+        return f"{month}.{day}.{year}"
     elif date_format == "year":
         return f"{year}"
     return None
 
 
-def build_filename(doc_type_config, date_str=None, manual_name=None):
+def build_filename(doc_type_config, date_str=None, manual_name=None, lot_number=None):
     """Build the final filename for this doc type.
 
+    - If 'filename_source' is 'lot_number', build 'LOT {number}.pdf'
+      from the extracted lot number.
     - If the doc type is 'manual_filename', use whatever title was
       typed in during review (manual_name) instead of auto-building one.
     - Otherwise, build '{Doc Type} {date}.pdf' using this doc type's
       date_format, or just '{Doc Type}.pdf' if it doesn't use a date.
-    - Returns None if a date was required but not available, or if a
-      manual name was required but not provided - the caller should
-      prompt for one in that case rather than guessing.
+    - Returns None if a required piece (date, manual name, or lot
+      number) wasn't provided - the caller should prompt for one in
+      that case rather than guessing.
     """
+    if doc_type_config.get("filename_source") == "lot_number":
+        if not lot_number:
+            return None
+        return sanitize_filename(f"LOT {lot_number}.pdf")
+
     if doc_type_config.get("manual_filename"):
         if not manual_name:
             return None
@@ -97,14 +108,6 @@ def build_filename(doc_type_config, date_str=None, manual_name=None):
     return sanitize_filename(filename)
 
 
-def find_doc_type_config(doc_types, doc_type_name):
-    """Return the matching doc-type config, skipping comment-only entries."""
-    for doc_type in doc_types:
-        if doc_type.get("name") == doc_type_name:
-            return doc_type
-    raise ValueError(f"Unknown document type: {doc_type_name}")
-
-
 def get_destination_folder(output_root, property_name, doc_type_config):
     base = os.path.join(output_root, sanitize_filename(property_name))
     if doc_type_config.get("subfolder", True):
@@ -119,21 +122,21 @@ def _resolve_output_root(settings):
     return output_root
 
 
-def file_document(pdf_path, property_name, doc_type_config, settings, date_str=None, manual_name=None):
+def file_document(pdf_path, property_name, doc_type_config, settings, date_str=None, manual_name=None, lot_number=None):
     """Move a PDF into the correct community/doctype folder with the
     correctly-built filename. Raises ValueError if the filename can't
-    be built (missing date or missing manual name) - the review step
-    should catch this and prompt rather than let it crash."""
+    be built (missing date, manual name, or lot number) - the review
+    step should catch this and prompt rather than let it crash."""
     output_root = _resolve_output_root(settings)
 
     destination_folder = get_destination_folder(output_root, property_name, doc_type_config)
     os.makedirs(destination_folder, exist_ok=True)
 
-    filename = build_filename(doc_type_config, date_str=date_str, manual_name=manual_name)
+    filename = build_filename(doc_type_config, date_str=date_str, manual_name=manual_name, lot_number=lot_number)
     if filename is None:
         raise ValueError(
             f"Couldn't build a filename for doc type '{doc_type_config['name']}' - "
-            "a date or manual title is required but wasn't provided."
+            "a date, manual title, or lot number is required but wasn't provided."
         )
 
     destination_path = make_unique_path(os.path.join(destination_folder, filename))
@@ -158,7 +161,8 @@ def file_as_unsorted(pdf_path, settings):
 
 
 if __name__ == "__main__":
-    #Command-line interface for filing a single PDF.
+    # Quick manual test:
+    #   python src/filer.py downloads/1636_001.pdf "University Hills" "Invoices" "2022-07-01"
     import sys
     import json
 
@@ -178,7 +182,7 @@ if __name__ == "__main__":
         if date_str.lower() == "none":
             date_str = None
 
-        doc_type_config = find_doc_type_config(doc_types, doc_type_name)
+        doc_type_config = next(dt for dt in doc_types if dt["name"] == doc_type_name)
 
         result_path = file_document(
             pdf_path, property_name, doc_type_config, settings, date_str=date_str
